@@ -1,7 +1,6 @@
 "use strict";
 
 /** @type {import('sequelize-cli').Migration} */
-"use strict";
 
 const { User } = require("../models");
 const bcrypt = require("bcryptjs");
@@ -16,18 +15,18 @@ module.exports = {
     await User.bulkCreate(
       [
         {
-          email: "demo@user.io",
-          username: "Demo-lition",
+          email: "brian@user.io",
+          username: "brianUser",
           hashedPassword: bcrypt.hashSync("password"),
         },
         {
-          email: "user1@user.io",
-          username: "FakeUser1",
+          email: "alisa@user.io",
+          username: "alisaUser",
           hashedPassword: bcrypt.hashSync("password2"),
         },
         {
-          email: "user2@user.io",
-          username: "FakeUser2",
+          email: "sebas@user.io",
+          username: "sebasUser",
           hashedPassword: bcrypt.hashSync("password3"),
         },
       ],
@@ -41,7 +40,7 @@ module.exports = {
     return queryInterface.bulkDelete(
       options,
       {
-        username: { [Op.in]: ["Demo-lition", "FakeUser1", "FakeUser2"] },
+        username: { [Op.in]: ["brianUser", "alisaUser", "sebasUser"] },
       },
       {}
     );
