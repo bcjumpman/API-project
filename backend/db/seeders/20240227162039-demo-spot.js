@@ -4,7 +4,8 @@
 
 const { Spot } = require("../models");
 
-let options = { tableName: "Spots" };
+// let options = { tableName: "Spots" };
+let options = {};
 if (process.env.NODE_ENV === "production") {
   options.schema = process.env.SCHEMA; // define your schema in options object
 }
@@ -85,7 +86,6 @@ module.exports = {
           price: 500.99,
         },
       ],
-      options,
       { validate: true }
     );
   },
