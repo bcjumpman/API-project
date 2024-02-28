@@ -1,14 +1,14 @@
 "use strict";
 
-/** @type {import('sequelize-cli').Migration} */
-
 const { Spot } = require("../models");
 
-let options = { tableName: "Spots" };
-// let options = {};
+/** @type {import('sequelize-cli').Migration} */
+
+let options = {};
 if (process.env.NODE_ENV === "production") {
   options.schema = process.env.SCHEMA; // define your schema in options object
 }
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     /**
@@ -65,12 +65,12 @@ module.exports = {
           city: "Washington",
           state: "District of Columbia",
           country: "Wakanda",
-          lat: 38.8911,
-          lng: -77.032928,
-          name: "National Museum of African American History and Culture",
+          lat: 35.9873,
+          lng: 35.234,
+          name: "National Museum of African American History",
           description:
             "Smithsonian Institution museum located on the National Mall",
-          price: 400.99,
+          price: 77.89,
         },
         {
           ownerId: 5,
@@ -102,9 +102,7 @@ module.exports = {
     return queryInterface.bulkDelete(
       options,
       {
-        ownerId: {
-          [Op.in]: [1, 2, 3, 4, 5],
-        },
+        ownerId: { [Op.in]: [1, 2, 3] },
       },
       {}
     );
