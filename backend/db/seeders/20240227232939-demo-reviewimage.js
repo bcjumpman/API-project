@@ -18,45 +18,6 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    //   await ReviewImage.bulkCreate(
-    //     [
-    //       {
-    //         reviewId: 1,
-    //         url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg/520px-Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg",
-    //       },
-    //       {
-    //         reviewId: 2,
-    //         url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg/520px-Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg",
-    //       },
-    //       {
-    //         reviewId: 3,
-    //         url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg/520px-Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg",
-    //       },
-    //       {
-    //         reviewId: 4,
-    //         url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg/520px-Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg",
-    //       },
-    //       {
-    //         reviewId: 5,
-    //         url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg/520px-Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg",
-    //       },
-    //       {
-    //         reviewId: 6,
-    //         url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg/520px-Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg",
-    //       },
-    //       {
-    //         reviewId: 7,
-    //         url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg/520px-Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg",
-    //       },
-    //       {
-    //         reviewId: 8,
-    //         url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg/520px-Eugene_Cernan_at_the_LM%2C_Apollo_17.jpg",
-    //       },
-    //     ],
-    //     options,
-    //     { validate: true }
-    //   );
-    // },
 
     await ReviewImage.bulkCreate(
       [
@@ -81,7 +42,6 @@ module.exports = {
           url: "https://imgur.com/a/pqvOPxi5",
         },
       ],
-      options,
       { validate: true }
     );
   },
