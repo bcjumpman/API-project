@@ -54,7 +54,6 @@ module.exports = {
           endDate: "2023-05-08",
         },
       ],
-      options,
       { validate: true }
     );
   },
