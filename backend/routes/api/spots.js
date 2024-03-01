@@ -398,37 +398,46 @@ router.get("/:spotId", async (req, res) => {
   res.json(spot);
 });
 
+//* Create an image for a spot
 router.post("/:spotId/images", requireAuth, async (req, res) => {
-  const userId = req.user.id;
-  const { spotId } = req.params;
-  const { url, preview } = req.body;
+  try {
+    const userId = req.user.id;
+    const { spotId } = req.params;
+    const { url, preview } = req.body;
 
-  const spot = await Spot.findByPk(spotId);
+    // Eager loading: Fetch spot along with its owner
+    const spot = await Spot.findByPk(spotId, { include: User });
 
-  if (!spot) {
-    res.status(404);
-    return res.json({
-      message: "Spot couldn't be found",
+    if (!spot) {
+      return res.status(404).json({
+        message: "Spot couldn't be found",
+      });
+    }
+
+    // Check if the user is the owner of the spot
+    if (userId !== spot.User.id) {
+      // accessing owner directly from spot
+      return res.status(403).json({
+        message: "Forbidden",
+      });
+    }
+
+    // Create a new spot image associated with the spot
+    const spotImage = await SpotImage.create({
+      spotId: spot.id,
+      url,
+      preview,
     });
-  }
 
-  if (userId !== spot.ownerId) {
-    res.status(403);
-    return res.json({
-      message: "Forbidden",
+    res.json({
+      id: spotImage.id,
+      url: spotImage.url,
+      preview: spotImage.preview,
     });
+  } catch (error) {
+    console.error("Error creating spot image:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-
-  const spotImage = await spot.create({
-    spotId,
-    url,
-    preview,
-  });
-  res.json({
-    id: spotImage.id,
-    url: spotImage.url,
-    preview: spotImage.preview,
-  });
 });
 
 router.post("/", requireAuth, validateSpots, async (req, res) => {
