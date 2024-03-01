@@ -19,40 +19,48 @@ const {
 const { Op, ValidationError } = require("sequelize");
 const { handleValidationErrors } = require("../../utils/validation");
 
-// Get all Reviews of the Current User
+validateReviews = [
+  check("review")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Review text is required"),
+  check("stars")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .isInt({ min: 1, max: 5 })
+    .withMessage("Stars must be an integer from 1 to 5"),
+  handleValidationErrors,
+];
+
+//* Get all Reviews of the Current User
 router.get("/current", requireAuth, async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const reviews = await Review.findAll({
-      where: { userId },
-      include: [
-        { model: User, attributes: ["id", "firstName", "lastName"] },
-        {
-          model: Spot,
-          attributes: [
-            "id",
-            "ownerId",
-            "address",
-            "city",
-            "state",
-            "country",
-            "lat",
-            "lng",
-            "name",
-            "price",
-          ],
-        },
-        { model: ReviewImage, attributes: ["id", "url"] },
-      ],
-    });
-    res.status(200).json({ Reviews: reviews });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
+  const userId = req.user.id;
+  const reviews = await Review.findAll({
+    where: { userId },
+    include: [
+      { model: User, attributes: ["id", "firstName", "lastName"] },
+      {
+        model: Spot,
+        attributes: [
+          "id",
+          "ownerId",
+          "address",
+          "city",
+          "state",
+          "country",
+          "lat",
+          "lng",
+          "name",
+          "price",
+        ],
+      },
+      { model: ReviewImage, attributes: ["id", "url"] },
+    ],
+  });
+  res.status(200).json({ Reviews: reviews });
 });
 
-// Get all Reviews by a Spot's id
+//* Get all Reviews by a Spot's id
 router.get("/:spotId/reviews", async (req, res) => {
   try {
     const spotId = req.params.spotId;
@@ -69,38 +77,75 @@ router.get("/:spotId/reviews", async (req, res) => {
   }
 });
 
-// Add an Image to a Review based on the Review's id
+//* Add an Image to a Review based on the Review's id
+// router.post("/:reviewId/images", requireAuth, async (req, res) => {
+//   const { url } = req.body;
+//   const reviewId = req.params.id;
+//   const userId = req.user.id;
+
+//   console.log("REVIEW ID:", reviewId);
+//   const review = await Review.findByPk(reviewId);
+//   if (!review) {
+//     res.status(404).json({ message: "Review couldn't be found" });
+//     return;
+//   }
+//   console.log("review Id:", reviewId);
+
+//   if (review.userId !== userId) {
+//     res.status(403).json({ message: "Forbidden" });
+//     return;
+//   }
+
+//   const reviewImagesCount = await ReviewImage.count({ where: { reviewId } });
+//   if (reviewImagesCount >= 10) {
+//     res.status(403).json({
+//       message: "Maximum number of images for this resource was reached",
+//     });
+//     return;
+//   }
+//   const newImage = await ReviewImage.create({ reviewId, url });
+//   res.status(200).json(newImage);
+// });
+
 router.post("/:reviewId/images", requireAuth, async (req, res) => {
-  try {
-    const { url } = req.body;
-    const reviewId = req.params;
-    const userId = req.user.id;
+  const userId = req.user.id;
+  const reviewId = req.params.reviewId;
+  const { url } = req.body;
 
-    console.log("review Id:", reviewId);
-    const review = await Review.findByPk(reviewId);
-    if (!review) {
-      res.status(404).json({ message: "Review couldn't be found" });
-      return;
-    }
+  console.log("REVIEW ID:", reviewId);
 
-    if (review.userId !== userId) {
-      res.status(403).json({ message: "Forbidden" });
-      return;
-    }
+  const review = await Review.findByPk(reviewId, {
+    include: ReviewImage,
+  });
+  console.log("REVIEW:", review);
 
-    const reviewImagesCount = await ReviewImage.count({ where: { reviewId } });
-    if (reviewImagesCount >= 10) {
-      res.status(403).json({
-        message: "Maximum number of images for this resource was reached",
-      });
-      return;
-    }
-    const newImage = await ReviewImage.create({ reviewId, url });
-    res.status(200).json(newImage);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
+  if (!review) {
+    res.status(404);
+    return res.json({
+      message: "Review couldn't be found",
+    });
   }
+
+  if (userId !== review.userId) {
+    res.status(403);
+    return res.json({
+      message: "Forbidden",
+    });
+  }
+
+  if (review.ReviewImages.length >= 10) {
+    res.status(403);
+    return res.json({
+      message: "Maximum number of images for this resource was reached",
+    });
+  }
+
+  const newImage = await review.createReviewImage({ url });
+
+  res.json({
+    id: newImage.dataValues.id,
+    url: newImage.dataValues.url,
+  });
 });
 
 //* Edit a Review
@@ -126,7 +171,7 @@ router.put("/:reviewId", requireAuth, async (req, res) => {
   res.status(200).json(existingReview);
 });
 
-// Delete a Review
+//* Delete a Review
 router.delete("/:reviewId", requireAuth, async (req, res) => {
   try {
     const reviewId = req.params.reviewId;
