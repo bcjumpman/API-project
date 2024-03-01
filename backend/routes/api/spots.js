@@ -12,7 +12,7 @@ const {
   Booking,
 } = require("../../db/models");
 
-const { check, query } = require("express-validator");
+const { check, query, validationResult } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 const spot = require("../../db/models/spot");
 
@@ -59,7 +59,7 @@ const validateSpots = [
   handleValidationErrors,
 ];
 
-validateReviews = [
+const validateReviews = [
   check("review")
     .exists({ checkFalsy: true })
     .notEmpty()
@@ -72,7 +72,7 @@ validateReviews = [
   handleValidationErrors,
 ];
 
-validateQuery = [
+const validateQuery = [
   query("page")
     .optional()
     .isInt({ min: 1, max: 10 })
@@ -515,58 +515,101 @@ router.put("/:spotId", requireAuth, validateSpots, async (req, res) => {
   res.json(spot);
 });
 
-router.get("/", async (req, res) => {
-  try {
-    const allSpots = await Spot.findAll({
-      include: [
-        {
-          model: Review,
-          attributes: ["stars"],
-        },
-        {
-          model: SpotImage,
-          attributes: ["url"],
-        },
-      ],
-    });
-
-    const spotsArray = allSpots.map((spot) => {
-      const totalStars = spot.Reviews.reduce(
-        (acc, review) => acc + review.stars,
-        0
-      );
-      const totalReviews = spot.Reviews.length;
-      const avgRating =
-        totalReviews > 0 ? totalStars / totalReviews : "No Reviews Yet";
-      const previewImage =
-        spot.SpotImages.length > 0 ? spot.SpotImages[0].url : null;
-
-      return {
-        id: spot.id,
-        ownerId: spot.ownerId,
-        address: spot.address,
-        city: spot.city,
-        state: spot.state,
-        country: spot.country,
-        lat: spot.lat,
-        lng: spot.lng,
-        name: spot.name,
-        description: spot.description,
-        price: spot.price,
-        createdAt: spot.createdAt,
-        updatedAt: spot.updatedAt,
-        avgRating,
-        previewImage,
-      };
-    });
-
-    return res.status(200).json({ Spots: spotsArray });
-  } catch (error) {
-    console.error("Error:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+//* Get all spots
+router.get("/", validateQuery, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res
+      .status(400)
+      .json({ message: "Bad Request", errors: errors.array() });
   }
+
+  const page = parseInt(req.query.page) || 1;
+  const size = parseInt(req.query.size) || 20;
+  const minLat = parseFloat(req.query.minLat);
+  const maxLat = parseFloat(req.query.maxLat);
+  const minLng = parseFloat(req.query.minLng);
+  const maxLng = parseFloat(req.query.maxLng);
+  const minPrice = parseFloat(req.query.minPrice);
+  const maxPrice = parseFloat(req.query.maxPrice);
+
+  const queryOptions = {
+    include: [
+      {
+        model: Review,
+        attributes: ["stars"],
+      },
+      {
+        model: SpotImage,
+        attributes: ["url"],
+      },
+    ],
+    limit: size,
+    offset: (page - 1) * size,
+  };
+
+  // Apply filters based on query parameters
+  if (!isNaN(minLat))
+    queryOptions.where = { ...queryOptions.where, lat: { [Op.gte]: minLat } };
+  if (!isNaN(maxLat))
+    queryOptions.where = {
+      ...queryOptions.where,
+      lat: { ...queryOptions.where?.lat, [Op.lte]: maxLat },
+    };
+  if (!isNaN(minLng))
+    queryOptions.where = { ...queryOptions.where, lng: { [Op.gte]: minLng } };
+  if (!isNaN(maxLng))
+    queryOptions.where = {
+      ...queryOptions.where,
+      lng: { ...queryOptions.where?.lng, [Op.lte]: maxLng },
+    };
+  if (!isNaN(minPrice))
+    queryOptions.where = {
+      ...queryOptions.where,
+      price: { [Op.gte]: minPrice },
+    };
+  if (!isNaN(maxPrice))
+    queryOptions.where = {
+      ...queryOptions.where,
+      price: { ...queryOptions.where?.price, [Op.lte]: maxPrice },
+    };
+
+  const { count, rows: allSpots } = await Spot.findAndCountAll(queryOptions);
+
+  const spotsArray = allSpots.map((spot) => {
+    const totalStars = spot.Reviews.reduce(
+      (acc, review) => acc + review.stars,
+      0
+    );
+    const totalReviews = spot.Reviews.length;
+    const avgRating =
+      totalReviews > 0 ? totalStars / totalReviews : "No Reviews Yet";
+    const previewImage =
+      spot.SpotImages.length > 0 ? spot.SpotImages[0].url : null;
+
+    return {
+      id: spot.id,
+      ownerId: spot.ownerId,
+      address: spot.address,
+      city: spot.city,
+      state: spot.state,
+      country: spot.country,
+      lat: spot.lat,
+      lng: spot.lng,
+      name: spot.name,
+      description: spot.description,
+      price: spot.price,
+      createdAt: spot.createdAt,
+      updatedAt: spot.updatedAt,
+      avgRating,
+      previewImage,
+    };
+  });
+
+  return res.status(200).json({ Spots: spotsArray, page, size });
 });
 
+//* Create new spot
 router.post("/", requireAuth, validateSpots, async (req, res) => {
   const { address, city, state, country, lat, lng, name, description, price } =
     req.body;
