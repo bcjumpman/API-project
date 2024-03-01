@@ -1,41 +1,35 @@
 const express = require("express");
+const { requireAuth } = require("../../utils/auth");
+
+const { Review, ReviewImage } = require("../../db/models");
+
 const router = express.Router();
 
-const {
-  setTokenCookie,
-  restoreUser,
-  requireAuth,
-} = require("../../utils/auth");
-const {
-  Spot,
-  SpotImage,
-  Review,
-  sequelize,
-  Sequelize,
-  User,
-  ReviewImage,
-} = require("../../db/models");
-const { Op, ValidationError } = require("sequelize");
-
 router.delete("/:imageId", requireAuth, async (req, res) => {
-  const review = await ReviewImage.findOne({
-    where: { id: req.params.imageId },
-    include: {
-      model: Review,
-    },
+  const userId = req.user.id;
+  const imageId = req.params.imageId;
+  const reviewImage = await ReviewImage.findByPk(imageId);
+
+  if (!reviewImage) {
+    res.status(404);
+    return res.json({
+      message: "Review Image couldn't be found",
+    });
+  }
+
+  const review = await Review.findByPk(reviewImage.reviewId);
+  if (userId !== review.userId) {
+    res.status(403);
+    return res.json({
+      message: "Forbidden",
+    });
+  }
+
+  await reviewImage.destroy();
+
+  res.json({
+    message: "Successfully deleted",
   });
-
-  if (!review) {
-    return res.status(404).json({ message: "Review Image couldn't be found" });
-  }
-
-  if (review.Review.userId !== req.user.id) {
-    return res.status(403).json({ message: "Forbidden" });
-  }
-
-  await review.destroy();
-
-  res.json({ message: "Successfully deleted" });
 });
 
 module.exports = router;
