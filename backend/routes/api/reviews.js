@@ -78,35 +78,36 @@ router.get("/:spotId/reviews", async (req, res) => {
 });
 
 //* Add an Image to a Review based on the Review's id
-// router.post("/:reviewId/images", requireAuth, async (req, res) => {
-//   const { url } = req.body;
-//   const reviewId = req.params.id;
-//   const userId = req.user.id;
+router.post("/:reviewId/images", requireAuth, async (req, res) => {
+  const { url } = req.body;
+  const reviewId = req.params.id;
+  const userId = req.user.id;
 
-//   console.log("REVIEW ID:", reviewId);
-//   const review = await Review.findByPk(reviewId);
-//   if (!review) {
-//     res.status(404).json({ message: "Review couldn't be found" });
-//     return;
-//   }
-//   console.log("review Id:", reviewId);
+  console.log("REVIEW ID:", reviewId);
+  const review = await Review.findByPk(reviewId);
+  if (!review) {
+    res.status(404).json({ message: "Review couldn't be found" });
+    return;
+  }
+  console.log("review Id:", reviewId);
 
-//   if (review.userId !== userId) {
-//     res.status(403).json({ message: "Forbidden" });
-//     return;
-//   }
+  if (review.userId !== userId) {
+    res.status(403).json({ message: "Forbidden" });
+    return;
+  }
 
-//   const reviewImagesCount = await ReviewImage.count({ where: { reviewId } });
-//   if (reviewImagesCount >= 10) {
-//     res.status(403).json({
-//       message: "Maximum number of images for this resource was reached",
-//     });
-//     return;
-//   }
-//   const newImage = await ReviewImage.create({ reviewId, url });
-//   res.status(200).json(newImage);
-// });
+  const reviewImagesCount = await ReviewImage.count({ where: { reviewId } });
+  if (reviewImagesCount >= 10) {
+    res.status(403).json({
+      message: "Maximum number of images for this resource was reached",
+    });
+    return;
+  }
+  const newImage = await ReviewImage.create({ reviewId, url });
+  res.status(200).json(newImage);
+});
 
+//* Add an Image to a Review based on the Review's id
 router.post("/:reviewId/images", requireAuth, async (req, res) => {
   const userId = req.user.id;
   const reviewId = req.params.reviewId;
