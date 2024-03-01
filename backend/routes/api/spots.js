@@ -108,6 +108,7 @@ const validateQuery = [
   handleValidationErrors,
 ];
 
+//* Get current user spots
 router.get("/current", requireAuth, async (req, res) => {
   const currUserId = req.user.id;
   const userSpots = await Spot.findAll({
@@ -151,6 +152,7 @@ router.get("/current", requireAuth, async (req, res) => {
   });
 });
 
+//* Get reviews from spot id
 router.get("/:spotId/reviews", async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId, {
     include: {
@@ -440,6 +442,7 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
   }
 });
 
+//* Create spot
 router.post("/", requireAuth, validateSpots, async (req, res) => {
   const { address, city, state, country, lat, lng, name, description, price } =
     req.body;
@@ -465,6 +468,7 @@ router.post("/", requireAuth, validateSpots, async (req, res) => {
   res.json(spot);
 });
 
+//* Edit spots
 router.put("/:spotId", requireAuth, validateSpots, async (req, res) => {
   const { address, city, state, country, lat, lng, name, description, price } =
     req.body;
@@ -515,7 +519,7 @@ router.put("/:spotId", requireAuth, validateSpots, async (req, res) => {
   res.json(spot);
 });
 
-//* Get all spots
+//* Get all spots w/ pagination
 router.get("/", validateQuery, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
