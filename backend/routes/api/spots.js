@@ -367,6 +367,7 @@ router.get("/:spotId", async (req, res) => {
       {
         model: User,
         attributes: ["id", "firstName", "lastName"],
+        as: "Owner",
       },
     ],
   });
@@ -401,44 +402,44 @@ router.get("/:spotId", async (req, res) => {
 
 //* Create an image for a spot
 router.post("/:spotId/images", requireAuth, async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const { spotId } = req.params;
-    const { url, preview } = req.body;
+  const userId = req.user.id;
+  const { spotId } = req.params;
+  const { url, preview } = req.body;
 
-    // Eager loading: Fetch spot along with its owner
-    const spot = await Spot.findByPk(spotId, { include: User });
-
-    if (!spot) {
-      return res.status(404).json({
-        message: "Spot couldn't be found",
-      });
-    }
-
-    // Check if the user is the owner of the spot
-    if (userId !== spot.User.id) {
-      // accessing owner directly from spot
-      return res.status(403).json({
-        message: "Forbidden",
-      });
-    }
-
-    // Create a new spot image associated with the spot
-    const spotImage = await SpotImage.create({
-      spotId: spot.id,
-      url,
-      preview,
+  console.log("REQ PARAMS", req.params);
+  // Eager loading: Fetch spot along with its owner
+  // const { count, rows: allSpots } = await Spot.findAndCountAll();
+  // console.log("ALL SPOTS:", allSpots);
+  const spot = await Spot.findByPk(spotId, {
+    include: [{ model: User, as: "Owner" }],
+  });
+  console.log("SPOT:", spot);
+  if (!spot) {
+    return res.status(404).json({
+      message: "Spot couldn't be found",
     });
-
-    res.json({
-      id: spotImage.id,
-      url: spotImage.url,
-      preview: spotImage.preview,
-    });
-  } catch (error) {
-    console.error("Error creating spot image:", error);
-    res.status(500).json({ message: "Internal Server Error" });
   }
+
+  // Check if the user is the owner of the spot
+  if (userId !== spot.Owner.id) {
+    // accessing owner directly from spot
+    return res.status(403).json({
+      message: "Forbidden",
+    });
+  }
+
+  // Create a new spot image associated with the spot
+  const spotImage = await SpotImage.create({
+    spotId: spot.id,
+    url,
+    preview,
+  });
+
+  res.json({
+    id: spotImage.id,
+    url: spotImage.url,
+    preview: spotImage.preview,
+  });
 });
 
 //* Create spot
