@@ -35,29 +35,52 @@ validateReviews = [
 //* Get all Reviews of the Current User
 router.get("/current", requireAuth, async (req, res) => {
   const userId = req.user.id;
+
   const reviews = await Review.findAll({
-    where: { userId },
+    where: {
+      userId: userId,
+    },
     include: [
-      { model: User, attributes: ["id", "firstName", "lastName"] },
+      {
+        model: User,
+        attributes: ["id", "firstName", "lastName"],
+      },
       {
         model: Spot,
-        attributes: [
-          "id",
-          "ownerId",
-          "address",
-          "city",
-          "state",
-          "country",
-          "lat",
-          "lng",
-          "name",
-          "price",
-        ],
+        attributes: {
+          exclude: ["createdAt", "updatedAt", "description"],
+        },
       },
-      { model: ReviewImage, attributes: ["id", "url"] },
+      {
+        model: ReviewImage,
+        attributes: {
+          exclude: ["reviewId", "updatedAt", "createdAt"],
+        },
+      },
     ],
   });
-  res.status(200).json({ Reviews: reviews });
+
+  for (let review of reviews) {
+    let preview = await SpotImage.findOne({
+      where: {
+        spotId: review.dataValues.Spot.dataValues.id,
+      },
+      attributes: ["url"],
+    });
+    review.dataValues.Spot.dataValues.previewImage = preview.url;
+
+    review.dataValues.Spot.dataValues.lat = parseFloat(
+      review.dataValues.Spot.dataValues.lat
+    );
+    review.dataValues.Spot.dataValues.lng = parseFloat(
+      review.dataValues.Spot.dataValues.lng
+    );
+    review.dataValues.Spot.dataValues.price = parseFloat(
+      review.dataValues.Spot.dataValues.price
+    );
+  }
+
+  res.json({ Reviews: reviews });
 });
 
 //* Get all Reviews by a Spot's id
@@ -75,36 +98,6 @@ router.get("/:spotId/reviews", async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
-});
-
-//* Add an Image to a Review based on the Review's id
-router.post("/:reviewId/images", requireAuth, async (req, res) => {
-  const { url } = req.body;
-  const reviewId = req.params.id;
-  const userId = req.user.id;
-
-  console.log("REVIEW ID:", reviewId);
-  const review = await Review.findByPk(reviewId);
-  if (!review) {
-    res.status(404).json({ message: "Review couldn't be found" });
-    return;
-  }
-  console.log("review Id:", reviewId);
-
-  if (review.userId !== userId) {
-    res.status(403).json({ message: "Forbidden" });
-    return;
-  }
-
-  const reviewImagesCount = await ReviewImage.count({ where: { reviewId } });
-  if (reviewImagesCount >= 10) {
-    res.status(403).json({
-      message: "Maximum number of images for this resource was reached",
-    });
-    return;
-  }
-  const newImage = await ReviewImage.create({ reviewId, url });
-  res.status(200).json(newImage);
 });
 
 //* Add an Image to a Review based on the Review's id

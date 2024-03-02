@@ -396,7 +396,6 @@ router.get("/:spotId", async (req, res) => {
   let avgRating = sum / count || 0;
   spot.dataValues.numReviews = count;
   spot.dataValues.avgStarRating = avgRating;
-  // preview image
   res.json(spot);
 });
 
