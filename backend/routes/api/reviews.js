@@ -106,12 +106,12 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
   const reviewId = req.params.reviewId;
   const { url } = req.body;
 
-  console.log("REVIEW ID:", reviewId);
+  // console.log("REVIEW ID:", reviewId);
 
   const review = await Review.findByPk(reviewId, {
     include: ReviewImage,
   });
-  console.log("REVIEW:", review);
+  // console.log("REVIEW:", review);
 
   if (!review) {
     res.status(404);
@@ -143,7 +143,7 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
 });
 
 //* Edit a Review
-router.put("/:reviewId", requireAuth, async (req, res) => {
+router.put("/:reviewId", requireAuth, validateReviews, async (req, res) => {
   const reviewId = req.params.reviewId;
   // console.log("REVIEW ID:", req.params);
   const userId = req.user.id;

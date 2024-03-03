@@ -45,9 +45,9 @@ router.post("/", validateLogin, async (req, res, next) => {
   //if we pass the checks then we're gonna create this object with this data that's safe, excluding both hashed and pt text which is passed into our setTokenCookie function which generates our token for the user
   const safeUser = {
     id: user.id,
-    email: user.email,
     firstName: user.firstName,
     lastName: user.lastName,
+    email: user.email,
     username: user.username,
   };
 
