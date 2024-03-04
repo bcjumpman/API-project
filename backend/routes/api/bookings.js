@@ -30,14 +30,12 @@ router.get("/current", requireAuth, async (req, res) => {
     where: {
       userId: user,
     },
-    include: [
-      {
-        model: Spot,
-        attributes: {
-          exclude: ["description", "createdAt", "updatedAt"],
-        },
+    include: {
+      model: Spot,
+      attributes: {
+        exclude: ["description", "createdAt", "updatedAt"],
       },
-    ],
+    },
   });
   let bookingsArr = [];
   for (let booking of bookings) {
