@@ -30,9 +30,7 @@ const validateSignup = [
   handleValidationErrors,
 ];
 
-// Sign up route
-
-// check for duplicate usernames
+//* check for duplicate usernames
 async function duplicates(req, res, next) {
   const { username, email } = req.body;
 
@@ -50,7 +48,7 @@ async function duplicates(req, res, next) {
     return next(err);
   }
 
-  // check for duplicate usernames
+  //* check for duplicate emails
   const findEmail = await User.findOne({
     where: { email: email },
   });
@@ -68,6 +66,7 @@ async function duplicates(req, res, next) {
   return next();
 }
 
+//* Sign up new user
 router.post("/", validateSignup, duplicates, async (req, res) => {
   const { email, password, username, firstName, lastName } = req.body;
   const hashedPassword = bcrypt.hashSync(password);
@@ -81,10 +80,10 @@ router.post("/", validateSignup, duplicates, async (req, res) => {
 
   const safeUser = {
     id: user.id,
-    email: user.email,
-    username: user.username,
     firstName: user.firstName,
     lastName: user.lastName,
+    email: user.email,
+    username: user.username,
   };
 
   await setTokenCookie(res, safeUser);
