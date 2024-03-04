@@ -323,7 +323,6 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
       [Op.and]: [
         { startDate: { [Op.lte]: new Date(endDate) } },
         { endDate: { [Op.gte]: new Date(startDate) } },
-        // { endDate: { [Op.eq]: new Date(startDate) } },
       ],
     },
   });
@@ -408,8 +407,7 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
 
   console.log("REQ PARAMS", req.params);
   // Eager loading: Fetch spot along with its owner
-  // const { count, rows: allSpots } = await Spot.findAndCountAll();
-  // console.log("ALL SPOTS:", allSpots);
+
   const spot = await Spot.findByPk(spotId, {
     include: [{ model: User, as: "Owner" }],
   });
