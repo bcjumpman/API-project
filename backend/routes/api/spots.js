@@ -396,6 +396,10 @@ router.get("/:spotId", async (req, res) => {
   let avgRating = sum / count || 0;
   spot.dataValues.numReviews = count;
   spot.dataValues.avgStarRating = avgRating;
+
+  spot.lat = parseFloat(spot.lat);
+  spot.lng = parseFloat(spot.lng);
+  spot.price = parseFloat(spot.price);
   res.json(spot);
 });
 
