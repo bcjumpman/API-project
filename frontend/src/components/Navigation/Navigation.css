@@ -5,3 +5,40 @@
 .hidden {
   display: none;
 }
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  margin: auto 30px;
+  border-bottom: #999999 solid 1px;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.nav-left .nav-logo {
+  float: left;
+  width: 50px;
+  height: 50px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-right: 5rem;
+}
+
+.profile-button {
+  border-radius: 30px;
+  border-width: thin;
+  border: 1px solid black;
+  padding: 8px 10px;
+  font-size: 20px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
