@@ -53,6 +53,12 @@ module.exports = {
           startDate: "2023-05-01",
           endDate: "2023-05-08",
         },
+        {
+          spotId: 6,
+          userId: 5,
+          startDate: "2023-07-06",
+          endDate: "2023-07-13",
+        },
       ],
       { validate: true }
     );

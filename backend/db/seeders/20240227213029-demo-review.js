@@ -25,33 +25,41 @@ module.exports = {
         {
           spotId: 1,
           userId: 1,
-          review: "Beautiful building with lots of food. Will visit again!",
+          review:
+            "So many basketball greats played in the House that Kobe Built!",
           stars: 5,
         },
         {
           spotId: 2,
           userId: 2,
-          review: "Awesome musical venue! Lots of parking available",
+          review:
+            "Seeing Messi and Neymar on the same team was perfect. The crowd was very electric!",
           stars: 4,
         },
         {
           spotId: 3,
           userId: 3,
           review:
-            "Historical venue with lots of great comics. There is not a bad seat in the house",
+            "Amazing World Cup qualifying game. The weather was perfect for a day game.",
           stars: 5,
         },
         {
           spotId: 4,
           userId: 4,
-          review: "Great family outing. A lot of history has been captured.",
+          review: "Amazing venue concert venue, we caught Kanye West live!",
           stars: 2,
         },
         {
           spotId: 5,
           userId: 5,
-          review: "Rude cashier ruined the day for my family.",
-          stars: 1,
+          review: "So much history at this stadium and the boys loved it.",
+          stars: 4,
+        },
+        {
+          spotId: 6,
+          userId: 5,
+          review: "Amazing stadium and the Blues won!",
+          stars: 5,
         },
       ],
       { validate: true }
@@ -71,7 +79,7 @@ module.exports = {
       queryInterface.bulkDelete,
       (options,
       {
-        spotId: { [Op.in]: [1, 2, 3, 4, 5] },
+        spotId: { [Op.in]: [1, 2, 3, 4, 5, 6] },
       },
       {})
     );
