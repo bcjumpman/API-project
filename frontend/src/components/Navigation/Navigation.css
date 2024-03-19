@@ -1,3 +1,7 @@
+* {
+  background-color: #838b64;
+}
+
 .profile-dropdown {
   position: absolute;
 }
@@ -31,7 +35,7 @@
   margin-right: 5rem;
 }
 
-.profile-button {
+/* .profile-button {
   border-radius: 30px;
   border-width: thin;
   border: 1px solid black;
@@ -41,4 +45,4 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-}
+} */
