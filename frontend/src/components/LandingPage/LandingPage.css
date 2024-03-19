@@ -1,0 +1,35 @@
+* {
+    box-sizing: border-box;
+  }
+
+.landing-page-container {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    margin-top: 2rem;
+}
+
+.spot-container {
+    display: flex;
+   justify-content: space-between;
+   flex-wrap: wrap;
+
+}
+.spot-card {
+    display: flex;
+    justify-content: center;
+}
+
+.spot-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.spot-card-image {
+    border-radius: 0.75rem;
+    width: 300px;
+    height: 200px;
+}
