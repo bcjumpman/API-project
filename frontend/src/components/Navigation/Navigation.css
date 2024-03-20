@@ -1,5 +1,5 @@
 * {
-  background-color: #838b64;
+  background-color: #ccccca;
 }
 
 .profile-dropdown {
@@ -34,15 +34,3 @@
   gap: 15px;
   margin-right: 5rem;
 }
-
-/* .profile-button {
-  border-radius: 30px;
-  border-width: thin;
-  border: 1px solid black;
-  padding: 8px 10px;
-  font-size: 20px;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-} */

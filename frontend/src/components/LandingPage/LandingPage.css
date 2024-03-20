@@ -1,7 +1,3 @@
-* {
-    box-sizing: border-box;
-  }
-
 .landing-page-container {
     margin-top: 2rem;
     display: flex;
@@ -14,18 +10,22 @@
 
 .spot-container {
     display: flex;
-   justify-content: space-between;
-   flex-wrap: wrap;
-
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
+
 .spot-card {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 0.5rem;
 }
 
 .spot-info {
     display: flex;
     justify-content: space-between;
+    width: 100%;
 }
 
 .spot-card-image {
