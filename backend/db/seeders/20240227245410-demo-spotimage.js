@@ -22,12 +22,12 @@ module.exports = {
         {
           spotId: 1,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820709/staples2.png",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 1,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820709/kobe%20statue1.jpg",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 1,
@@ -37,26 +37,26 @@ module.exports = {
         {
           spotId: 1,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820709/laker%20floor.jpg",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 2,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820708/noucamp1.webp",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 2,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820707/ncwide.webp",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 2,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820707/nccrowd.jpg",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 2,
-          url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820707/ncgirl.jpg",
+          url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710956247/noucamp6.webp",
           preview: true,
         },
         {
@@ -67,32 +67,32 @@ module.exports = {
         {
           spotId: 3,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820708/oc2.jpg",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 3,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820708/op3.jpg",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 3,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710823099/oc4.webp",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 4,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820707/mb1.jpg",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 4,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820708/mb2.jpg",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 4,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820707/mb3.jpg",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 4,
@@ -107,22 +107,22 @@ module.exports = {
         {
           spotId: 5,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820709/ys2.jpg",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 5,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820709/ys3.jpg",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 5,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820709/ys4.jpg",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 6,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820708/chelsea1.webp",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 6,
@@ -132,12 +132,12 @@ module.exports = {
         {
           spotId: 6,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820707/chelsea3.jpg",
-          preview: true,
+          preview: false,
         },
         {
           spotId: 6,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820708/chelsea4.webp",
-          preview: true,
+          preview: false,
         },
       ],
       { validate: true }
