@@ -7,6 +7,7 @@ function SpotDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const spot = useSelector((state) => state.spots[spotId]);
+  // const images = spot? .SpotImages;
 
   useEffect(() => {
     dispatch(fetchSpot(spotId));
@@ -21,6 +22,14 @@ function SpotDetails() {
           {spot?.state}
           {spot?.country}
         </p>
+        <div className="spot-image-container">
+          {/* Check if spot and spot.SpotImages are available before mapping */}
+          {spot &&
+            spot.SpotImages &&
+            spot.SpotImages.map((image, index) => (
+              <img key={index} src={image.url} />
+            ))}
+        </div>
       </div>
     </div>
   );
