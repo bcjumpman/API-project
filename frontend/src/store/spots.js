@@ -1,5 +1,5 @@
 import { csrfFetch } from "./csrf";
-//* action type consts
+//* action type const
 export const LOAD_SPOTS = "spots/LOAD_SPOTS";
 export const GET_SPOT = "spots/GET_SPOT";
 
@@ -41,7 +41,7 @@ export const fetchSpot = (spotId) => async (dispatch) => {
 };
 // console.log("SINGLE SPOT DETAILS:", spot);
 
-//* Reducers
+// Reducers
 const spotsReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_SPOTS: {
