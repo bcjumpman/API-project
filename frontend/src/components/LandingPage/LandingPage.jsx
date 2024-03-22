@@ -6,16 +6,19 @@ import "./LandingPage.css";
 
 function LandingPage() {
   const dispatch = useDispatch();
-  const spots = useSelector((state) => Object.values(state.spots));
+  const spots = useSelector((state) => state.spots); // Accessing spots directly from state
 
   useEffect(() => {
     dispatch(fetchSpots());
   }, [dispatch]);
 
+  // Convert spots object to array
+  const spotsArray = Object.keys(spots).map((key) => spots[key]);
+
   return (
     <div className="container">
       <div className="spot-container">
-        {spots.map((spot) => (
+        {spotsArray.map((spot) => (
           <Spot spot={spot} key={spot.id} />
         ))}
       </div>
