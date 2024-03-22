@@ -5,6 +5,7 @@ import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import { /*Link*/ useNavigate } from "react-router-dom";
+import { IoPersonCircleSharp } from "react-icons/io5";
 import "./Navigation.css";
 
 function ProfileButton({ user }) {
@@ -46,7 +47,8 @@ function ProfileButton({ user }) {
   return (
     <>
       <button onClick={toggleMenu}>
-        <i className="fas fa-user-circle" />
+        <IoPersonCircleSharp />
+        {/* <i className="IoPersonCircleSharp" /> */}
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (

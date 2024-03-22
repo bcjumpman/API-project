@@ -3,11 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchSpot } from "../../store/spots";
 import { fetchReviews } from "../../store/reviews";
+import Reviews from "../Reviews";
 
 function SpotDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const spot = useSelector((state) => state.spots[spotId]);
+  const reviews = useSelector((state) => state.reviews);
+  const sessionUser = useSelector((state) => state.session.user);
+
+  console.log("SESSION USER==>", sessionUser);
 
   const reserveBtn = (e) => {
     e.preventDefault();
@@ -82,6 +87,16 @@ function SpotDetails() {
             )}
           </div>
         </div>
+      </div>
+      <div className="reviews-container">
+        {Object.keys(reviews).length ? (
+          <Reviews />
+        ) : (
+          sessionUser &&
+          sessionUser.id !== spot?.ownerId && (
+            <p>Be the first to post a review!</p>
+          )
+        )}
       </div>
     </div>
   );

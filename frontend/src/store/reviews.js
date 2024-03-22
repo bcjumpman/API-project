@@ -1,10 +1,16 @@
 import { csrfFetch } from "./csrf";
 
 export const GET_REVIEWS = "reviews/GET_REVIEWS";
+export const DELETE_REVIEW = "reviews/DELETE_REVIEW";
 
 export const getReviews = (reviews) => ({
   type: GET_REVIEWS,
   reviews,
+});
+
+export const deleteReview = (review) => ({
+  type: DELETE_REVIEW,
+  review,
 });
 
 //Thunk
@@ -16,6 +22,17 @@ export const fetchReviews = (spotId) => async (dispatch) => {
     const reviews = await response.json();
     dispatch(getReviews(reviews));
     return reviews;
+  }
+};
+
+//* delete review
+export const eraseReview = (reviewId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+    method: "DELETE",
+  });
+
+  if (response.ok) {
+    dispatch(deleteReview(reviewId));
   }
 };
 
