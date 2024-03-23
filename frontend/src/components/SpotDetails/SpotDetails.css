@@ -92,10 +92,10 @@
     gap: 0.5rem;
     align-items: center;
 }
-.reviews-header {
+/* .reviews-header {
     display: flex;
     align-items: left;
-}
+} */
 
 .reserve-btn {
     color: white;
