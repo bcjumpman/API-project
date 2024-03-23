@@ -1,1 +1,7 @@
 /* TODO: Add sitewide styles */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Wix+Madefor+Text:ital,wght@0,400..800;1,400..800&display=swap');
+
+
+* {
+    font-family: Noto Sans;
+}

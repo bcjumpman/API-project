@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { fetchSpot } from "../../store/spots";
 import { fetchReviews } from "../../store/reviews";
 import Reviews from "../Reviews";
+import "./SpotDetails.css";
 
 function SpotDetails() {
   const { spotId } = useParams();
@@ -29,16 +30,17 @@ function SpotDetails() {
       <div className="spot-header">
         <h2>{spot?.name}</h2>
         <p>
-          {spot?.city}
-          {spot?.state}
-          {spot?.country}
+          {spot?.city}, {spot?.state}, {spot?.country}
         </p>
         <div className="spot-image-container">
-          {/* Check if spot and spot.SpotImages are available before mapping */}
           {spot &&
             spot.SpotImages &&
             spot.SpotImages.map((image, index) => (
-              <img key={index} src={image.url} />
+              <img
+                key={index}
+                src={image.url}
+                className={`spot-img-${index}`}
+              />
             ))}
         </div>
       </div>
