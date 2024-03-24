@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addImages, createSpot, updateSpot } from "../../store/spots";
 import { useDispatch } from "react-redux";
-// import './SpotForm.css'
+import "./SpotForm.css";
 
 function SpotForm({ spot, formType }) {
   const navigate = useNavigate();

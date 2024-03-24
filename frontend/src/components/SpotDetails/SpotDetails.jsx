@@ -13,7 +13,7 @@ function SpotDetails() {
   const reviews = useSelector((state) => state.reviews);
   const sessionUser = useSelector((state) => state.session.user);
 
-  console.log("SESSION USER==>", sessionUser);
+  // console.log("SESSION USER==>", sessionUser);
 
   const reserveBtn = (e) => {
     e.preventDefault();
@@ -72,6 +72,8 @@ function SpotDetails() {
             Reserve
           </button>
         </div>
+      </div>
+      <div className="reviews-container">
         <div className="reviews-header">
           <div>
             {spot?.numReviews === 0 ? (
@@ -80,7 +82,7 @@ function SpotDetails() {
                 <span>New</span>
               </div>
             ) : (
-              <div>
+              <div className="">
                 <i className="fa-solid fa-star" />
                 {Number(spot?.avgStarRating).toFixed(1)}
                 <span> · </span>
@@ -89,8 +91,6 @@ function SpotDetails() {
             )}
           </div>
         </div>
-      </div>
-      <div className="reviews-container">
         {Object.keys(reviews).length ? (
           <Reviews />
         ) : (
