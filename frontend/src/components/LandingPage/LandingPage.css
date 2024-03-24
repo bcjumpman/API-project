@@ -33,3 +33,26 @@
     width: 300px;
     height: 200px;
 }
+
+.spot-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 1200px) {
+    .spot-container {
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 900px) {
+    .spot-container {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .spot-container {
+        justify-content: center;
+    }
+}

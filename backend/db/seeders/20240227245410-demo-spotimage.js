@@ -40,6 +40,11 @@ module.exports = {
           preview: false,
         },
         {
+          spotId: 1,
+          url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1711167770/jtc3cgaes2vel83rtgqz.avif",
+          preview: false,
+        },
+        {
           spotId: 2,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820708/noucamp1.webp",
           preview: false,
@@ -60,6 +65,11 @@ module.exports = {
           preview: true,
         },
         {
+          spotId: 2,
+          url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1711167770/xfpta1fhimlhccxcm274.jpg",
+          preview: false,
+        },
+        {
           spotId: 3,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820708/oc1.jpg",
           preview: true,
@@ -77,6 +87,11 @@ module.exports = {
         {
           spotId: 3,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710823099/oc4.webp",
+          preview: false,
+        },
+        {
+          spotId: 3,
+          url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1711167771/lte7f4bfbb8d5hby5g4f.jpg",
           preview: false,
         },
         {
@@ -100,6 +115,11 @@ module.exports = {
           preview: true,
         },
         {
+          spotId: 4,
+          url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1711167770/usd5lfjs0m9crstms9xp.jpg",
+          preview: false,
+        },
+        {
           spotId: 5,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820709/ys1.webp",
           preview: true,
@@ -120,6 +140,11 @@ module.exports = {
           preview: false,
         },
         {
+          spotId: 5,
+          url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1711167770/lkxbhjbzdisa1zeydjix.jpg",
+          preview: false,
+        },
+        {
           spotId: 6,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820708/chelsea1.webp",
           preview: false,
@@ -137,6 +162,11 @@ module.exports = {
         {
           spotId: 6,
           url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1710820708/chelsea4.webp",
+          preview: false,
+        },
+        {
+          spotId: 6,
+          url: "https://res.cloudinary.com/dkjaxm35z/image/upload/v1711167770/njqkddje3a2elbvfqku2.webp",
           preview: false,
         },
       ],

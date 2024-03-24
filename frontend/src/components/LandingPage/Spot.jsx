@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
+import { Tooltip } from "react-tooltip";
 
 function Spot({ spot }) {
   return (
-    <div className="spot-card" title={spot.name}>
+    <div
+      className="spot-card"
+      title={spot.name}
+      data-tooltip-id="spot-name"
+      data-tooltip-content={spot.name}
+      data-tooltip-place="top"
+    >
+      <Tooltip id="spot-name" />
       <Link to={`/spots/${spot.id}`}>
         <img
           src={spot.previewImage}
