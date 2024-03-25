@@ -1,6 +1,127 @@
+// import { useParams } from "react-router-dom";
+// import { useSelector, useDispatch } from "react-redux";
+// import { useEffect } from "react";
+// import { fetchSpot } from "../../store/spots";
+// import { fetchReviews } from "../../store/reviews";
+// import Reviews from "../Reviews";
+// import CreateReview from "../CreateReview";
+// import OpenModalButton from "../OpenModalButton/OpenModalButton";
+// import "./SpotDetails.css";
+
+// function SpotDetails() {
+//   const { spotId } = useParams();
+//   const dispatch = useDispatch();
+//   const spot = useSelector((state) => state.spots[spotId]);
+//   const reviews = useSelector((state) => state.reviews);
+//   const sessionUser = useSelector((state) => state.session.user);
+
+//   // Check if the current user has already posted a review
+//   const hasPostedReview = Object.values(reviews).some(
+//     (review) => review.userId === sessionUser?.id
+//   );
+
+//   const reserveBtn = (e) => {
+//     e.preventDefault();
+//     alert("Feature coming soon");
+//   };
+
+//   useEffect(() => {
+//     dispatch(fetchSpot(spotId));
+//     dispatch(fetchReviews(spotId));
+//   }, [dispatch, spotId, reviews]);
+
+//   return (
+//     <div className="spot-details-container">
+//       <div className="spot-header">
+//         <h2>{spot?.name}</h2>
+//         <p>
+//           {spot?.city}, {spot?.state}, {spot?.country}
+//         </p>
+//         <div className="spot-image-container">
+//           {spot &&
+//             spot.SpotImages &&
+//             spot.SpotImages.map((image, index) => (
+//               <img
+//                 key={index}
+//                 src={image.url}
+//                 className={`spot-img-${index}`}
+//               />
+//             ))}
+//         </div>
+//       </div>
+//       <div className="spot-details">
+//         <div className="spot-description">
+//           <h3>
+//             Hosted by {spot?.Owner?.firstName} {spot?.Owner?.lastName}
+//           </h3>
+//           <p>{spot?.description}</p>
+//         </div>
+//         <div className="reserve-container">
+//           <div className="reserve-top">
+//             <p>${spot?.price} night</p>
+//             <div className="reserve-top-right">
+//               <i className="fa-solid fa-star" />
+//               {spot?.numReviews === 0 ? (
+//                 <span>New</span>
+//               ) : (
+//                 <>
+//                   {Number(spot?.avgStarRating).toFixed(1)}
+//                   <span> · </span>
+//                   {spot?.numReviews}{" "}
+//                   {spot?.numReviews > 1 ? "reviews" : "review"}
+//                 </>
+//               )}
+//             </div>
+//           </div>
+//           <button className="reserve-btn" onClick={reserveBtn}>
+//             Reserve
+//           </button>
+//         </div>
+//       </div>
+//       <div className="reviews-container">
+//         <div className="reviews-header">
+//           <div className="">
+//             {spot?.numReviews === 0 ? (
+//               <div>
+//                 <i className="fa-solid fa-star" />
+//                 <span>New</span>
+//               </div>
+//             ) : (
+//               <div className="">
+//                 <i className="fa-solid fa-star" />
+//                 {Number(spot?.avgStarRating).toFixed(1)}
+//                 <span> · </span>
+//                 {spot?.numReviews} {spot?.numReviews > 1 ? "reviews" : "review"}
+//               </div>
+//             )}
+//           </div>
+//           {sessionUser &&
+//             !hasPostedReview &&
+//             spot?.ownerId !== sessionUser?.id && (
+//               <OpenModalButton
+//                 buttonText="Post Your Review"
+//                 modalComponent={<CreateReview spotId={spotId} />}
+//               />
+//             )}
+//         </div>
+//         {Object.keys(reviews).length ? (
+//           <Reviews />
+//         ) : (
+//           sessionUser &&
+//           sessionUser.id !== spot?.ownerId && (
+//             <p>Be the first to post a review!</p>
+//           )
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default SpotDetails;
+
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
 import { fetchSpot } from "../../store/spots";
 import { fetchReviews } from "../../store/reviews";
 import Reviews from "../Reviews";
@@ -14,19 +135,12 @@ function SpotDetails() {
   const spot = useSelector((state) => state.spots[spotId]);
   const reviews = useSelector((state) => state.reviews);
   const sessionUser = useSelector((state) => state.session.user);
+  const [reviewsFetched, setReviewsFetched] = useState(false);
 
-  // console.log("SESSION USER==>", sessionUser);
-
-  // let hasPosted = false;
-  // if (reviews?.find((review) => review.userId === sessionUser?.id))
-  //   hasPosted = true;
-
-  let hasPosted = false;
-  if (
-    Object.values(reviews).find((review) => review.userId === sessionUser?.id)
-  ) {
-    hasPosted = true;
-  }
+  // Check if the current user has already posted a review
+  const hasPostedReview = Object.values(reviews).some(
+    (review) => review.userId === sessionUser?.id
+  );
 
   const reserveBtn = (e) => {
     e.preventDefault();
@@ -34,9 +148,12 @@ function SpotDetails() {
   };
 
   useEffect(() => {
-    dispatch(fetchSpot(spotId));
-    dispatch(fetchReviews(spotId));
-  }, [dispatch, spotId]);
+    if (!reviewsFetched) {
+      dispatch(fetchSpot(spotId));
+      dispatch(fetchReviews(spotId));
+      setReviewsFetched(true);
+    }
+  }, [dispatch, spotId, reviewsFetched]);
 
   return (
     <div className="spot-details-container">
@@ -67,19 +184,19 @@ function SpotDetails() {
         <div className="reserve-container">
           <div className="reserve-top">
             <p>${spot?.price} night</p>
-            {spot?.numReviews === 0 ? (
-              <div className="reserve-top-right">
-                <i className="fa-solid fa-star" />
+            <div className="reserve-top-right">
+              <i className="fa-solid fa-star" />
+              {spot?.numReviews === 0 ? (
                 <span>New</span>
-              </div>
-            ) : (
-              <div className="reserve-top-right">
-                <i className="fa-solid fa-star" />
-                {Number(spot?.avgStarRating).toFixed(1)}
-                <span> · </span>
-                {spot?.numReviews} {spot?.numReviews > 1 ? "reviews" : "review"}
-              </div>
-            )}
+              ) : (
+                <>
+                  {Number(spot?.avgStarRating).toFixed(1)}
+                  <span> · </span>
+                  {spot?.numReviews}{" "}
+                  {spot?.numReviews > 1 ? "reviews" : "review"}
+                </>
+              )}
+            </div>
           </div>
           <button className="reserve-btn" onClick={reserveBtn}>
             Reserve
@@ -88,7 +205,7 @@ function SpotDetails() {
       </div>
       <div className="reviews-container">
         <div className="reviews-header">
-          <div>
+          <div className="">
             {spot?.numReviews === 0 ? (
               <div>
                 <i className="fa-solid fa-star" />
@@ -103,12 +220,14 @@ function SpotDetails() {
               </div>
             )}
           </div>
-          {sessionUser && !hasPosted && spot?.ownerId !== sessionUser?.id && (
-            <OpenModalButton
-              buttonText="Post Your Review"
-              modalComponent={<CreateReview spotId={spotId} />}
-            />
-          )}
+          {sessionUser &&
+            !hasPostedReview &&
+            spot?.ownerId !== sessionUser?.id && (
+              <OpenModalButton
+                buttonText="Post Your Review"
+                modalComponent={<CreateReview spotId={spotId} />}
+              />
+            )}
         </div>
         {Object.keys(reviews).length ? (
           <Reviews />
@@ -122,4 +241,5 @@ function SpotDetails() {
     </div>
   );
 }
+
 export default SpotDetails;

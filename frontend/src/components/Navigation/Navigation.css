@@ -1,9 +1,13 @@
 * {
-  background-color: #f2f2f1;
+  background-color: #fffffe;
 }
 
 .profile-dropdown {
   position: absolute;
+
+  right: 0;
+  z-index: 100;
+
 }
 
 .hidden {
@@ -15,6 +19,9 @@
   justify-content: space-between;
   margin: auto 30px;
   border-bottom: #999999 solid 1px;
+
+  position: relative;
+
 }
 
 .nav-left {
@@ -33,4 +40,16 @@
   align-items: center;
   gap: 15px;
   margin-right: 5rem;
+}
+
+.profile-button {
+  border-radius: 30px;
+  border-width: thin;
+  border: 1px solid black;
+  padding: 8px 10px;
+  font-size: 20px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }

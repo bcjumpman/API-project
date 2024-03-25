@@ -24,7 +24,9 @@ function Spot({ spot }) {
           </p>
           <p>
             <i className="fa-solid fa-star" />
-            {(spot.avgRating && Number(spot.avgRating).toFixed(1)) || `New`}
+            {typeof spot.avgRating === "number"
+              ? Number(spot.avgRating).toFixed(1)
+              : "New"}
           </p>
         </div>
         <p>${spot.price} night</p>

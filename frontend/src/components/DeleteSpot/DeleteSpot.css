@@ -1,0 +1,26 @@
+.delete-spot-container {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.delete-spot-container h2 {
+    text-align: center;
+}
+
+.delete-spot-button {
+    background-color: #f0c649;
+    color: white;
+    border: solid black 2px;
+    box-shadow: 2px 2px black;
+    height: 40px;
+}
+
+.keep-spot-button {
+    background-color: #999999;
+    color: white;
+    border: solid black 2px;
+    box-shadow: 2px 2px black;
+    height: 40px;
+}
