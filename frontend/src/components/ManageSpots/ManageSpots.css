@@ -1,0 +1,58 @@
+.manage-spot-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.manage-spot-card-image {
+    width: 300px;
+    height: 200px;
+}
+
+.manage-btn-div {
+    display: flex;
+    gap: 1rem;
+}
+
+.manage-spot-button {
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #999999;
+    color: white;
+    border: solid black 2px;
+    box-shadow: 2px 2px black;
+    height: 20px;
+    width: fit-content;
+    text-decoration: none;
+}
+
+.manage-spot-button:hover {
+    cursor: pointer;
+}
+
+.manage-button-div button {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #999999;
+    color: white;
+    border: solid black 2px;
+    box-shadow: 2px 2px black;
+    height: 25px;
+    width: fit-content;
+    text-decoration: none;
+}
+
+.manage-button-div button:hover {
+    cursor: pointer;
+}
+
+.manage-spot-button > a:visited {
+    color: white;
+}
+
+.manage-spot-button > a:not(visited) {
+    color: white;
+}

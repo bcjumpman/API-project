@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { createReview } from "../../store/reviews";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import "./CreateReview.css";
 
 export default function CreateReview({ spotId }) {
   const dispatch = useDispatch();
@@ -25,12 +26,49 @@ export default function CreateReview({ spotId }) {
     setActiveRating(newRating);
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setSubmitted(true);
+
+  //   // Check if there are validation errors
+  //   if (Object.keys(validationErrors).length > 0) return;
+
+  //   const newReview = { review, stars: rating };
+  //   const createdReview = await dispatch(createReview(spotId, newReview));
+
+  //   // Check if the review was successfully created
+  //   if (createdReview) {
+  //     // Reset form state
+  //     setReview("");
+  //     setRating(0);
+  //     setActiveRating(0);
+
+  //     // Close the modal after the review is successfully created
+  //     closeModal();
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitted(true);
+
+    // Check if there are validation errors
+    if (Object.keys(validationErrors).length > 0) return;
+
     const newReview = { review, stars: rating };
-    dispatch(createReview(spotId, newReview));
-    closeModal();
+    const response = await dispatch(createReview(spotId, newReview));
+
+    // Check if the review was successfully created
+    if (response && response.error) {
+      // Display server error below the title
+      setValidationErrors({ serverError: response.error });
+    } else {
+      // Reset form state and close the modal
+      setReview("");
+      setRating(0);
+      setActiveRating(0);
+      closeModal();
+    }
   };
 
   return (
@@ -103,7 +141,7 @@ export default function CreateReview({ spotId }) {
         </div>
         <button
           type="submit"
-          className="submit-review-btn"
+          className="submit-review-button"
           disabled={Object.values(validationErrors).length}
         >
           Submit Your Review

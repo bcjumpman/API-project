@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchUserSpots } from "../../store/spots";
 import Spot from "./Spot";
+import "./ManageSpots.css";
 
 export default function ManageSpots() {
   const dispatch = useDispatch();
@@ -16,8 +17,8 @@ export default function ManageSpots() {
     <div className="manage-spots-container">
       <h2>Manage Spots</h2>
       <div className="manage-spot-container">
-        {Object.values(spots).length === 0 ? (
-          <button className="manage-spot-btn">
+        {!spots.length === 0 ? (
+          <button className="manage-spot-button">
             <Link to="/spots/new">Create a New Spot</Link>
           </button>
         ) : (

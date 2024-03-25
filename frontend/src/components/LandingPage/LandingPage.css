@@ -20,6 +20,7 @@
     flex-direction: column;
     align-items: center;
     margin: 0.5rem;
+    flex: 1 1 calc(25% - 1rem);
 }
 
 .spot-info {
@@ -30,29 +31,25 @@
 
 .spot-card-image {
     border-radius: 0.75rem;
-    width: 300px;
-    height: 200px;
-}
-
-.spot-container {
-    display: flex;
-    flex-wrap: wrap;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
 }
 
 @media (max-width: 1200px) {
-    .spot-container {
-        justify-content: space-between;
+    .spot-card {
+        flex-basis: calc(33.33% - 1rem);
     }
 }
 
 @media (max-width: 900px) {
-    .spot-container {
-        justify-content: center;
+    .spot-card {
+        flex-basis: calc(50% - 1rem);
     }
 }
 
 @media (max-width: 600px) {
-    .spot-container {
-        justify-content: center;
+    .spot-card {
+        flex-basis: calc(100% - 1rem);
     }
 }

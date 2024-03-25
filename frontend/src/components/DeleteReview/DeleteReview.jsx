@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { eraseReview } from "../../store/reviews";
-// import './DeleteReview.css'
+import "./DeleteReview.css";
 
 function DeleteReview({ review }) {
   const dispatch = useDispatch();
