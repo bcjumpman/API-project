@@ -145,8 +145,8 @@ function SpotForm({ spot, formType }) {
         </div>
         <div className="city-state">
           <label>
+            City
             <div className="city-label">
-              City
               <div className="errors">
                 {submitted &&
                   validationErrors.city &&
@@ -191,8 +191,8 @@ function SpotForm({ spot, formType }) {
           />
         </label>
         <label>
+          Longitude
           <div className="errors">
-            Longitude
             {submitted && validationErrors.lng && `${validationErrors.lng}`}
           </div>
           <input
