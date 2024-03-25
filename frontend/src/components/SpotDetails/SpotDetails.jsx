@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { fetchSpot } from "../../store/spots";
 import { fetchReviews } from "../../store/reviews";
 import Reviews from "../Reviews";
+import CreateReview from "../CreateReview";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import "./SpotDetails.css";
 
 function SpotDetails() {
@@ -14,6 +16,17 @@ function SpotDetails() {
   const sessionUser = useSelector((state) => state.session.user);
 
   // console.log("SESSION USER==>", sessionUser);
+
+  // let hasPosted = false;
+  // if (reviews?.find((review) => review.userId === sessionUser?.id))
+  //   hasPosted = true;
+
+  let hasPosted = false;
+  if (
+    Object.values(reviews).find((review) => review.userId === sessionUser?.id)
+  ) {
+    hasPosted = true;
+  }
 
   const reserveBtn = (e) => {
     e.preventDefault();
@@ -90,6 +103,12 @@ function SpotDetails() {
               </div>
             )}
           </div>
+          {sessionUser && !hasPosted && spot?.ownerId !== sessionUser?.id && (
+            <OpenModalButton
+              buttonText="Post Your Review"
+              modalComponent={<CreateReview spotId={spotId} />}
+            />
+          )}
         </div>
         {Object.keys(reviews).length ? (
           <Reviews />

@@ -2,7 +2,7 @@ import { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-// import "./LoginForm.css";
+import "./LoginForm.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -38,16 +38,18 @@ function LoginFormModal() {
     <>
       <div className="login-container">
         <h1>Log In</h1>
+
         {submit && errors.credential && (
           <p className="error">{errors.credential}</p>
         )}
         {submit && errors.password && (
           <p className="error">{errors.password}</p>
         )}
-        <form onSubmit={handleSubmit}>
+        <form className="login-form" onSubmit={handleSubmit}>
           <label>
             Username or Email
             <input
+              className="login-input"
               type="text"
               value={credential}
               onChange={(e) => setCredential(e.target.value)}
@@ -57,6 +59,7 @@ function LoginFormModal() {
           <label>
             Password
             <input
+              className="login-input"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -64,12 +67,10 @@ function LoginFormModal() {
             />
           </label>
 
-          {errors.credential && <p>{errors.credential}</p>}
-
           <button className="login-button" type="submit" disabled={isDisabled}>
             Log In
           </button>
-          <button className="login-btn" onClick={handleDemoLogin}>
+          <button className="login-button" onClick={handleDemoLogin}>
             Demo User
           </button>
         </form>
